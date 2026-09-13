@@ -1,0 +1,179 @@
+FSR-3001 | complete | Chiller CH-04
+Visit date: 2026-03-02
+Findings: Replaced clogged filter-drier, system recharged, running within spec.
+Actions taken: Replaced clogged filter-drier, system recharged, running within spec.
+Parts fitted: filter-drier FD-22
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 2 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3002 | complete | AHU-11
+Visit date: 2026-03-02
+Findings: Belt tension adjusted, no parts needed.
+Actions taken: Belt tension adjusted, no parts needed.
+Parts fitted: None recorded
+Outstanding or recommended: Belt within wear tolerance, recommend replacement at next PM visit.
+Time on site: 1 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3003 | complete | Boiler BLR-02
+Visit date: 2026-03-03
+Findings: Replaced failed ignition electrode, verified flame signal.
+Actions taken: Replaced failed ignition electrode, verified flame signal.
+Parts fitted: ignition electrode IE-9
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 3 hours 15 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3004 | complete | Pump P-07
+Visit date: 2026-03-03
+Findings: Reset overload relay, pump running.
+Actions taken: Reset overload relay, pump running.
+Parts fitted: None recorded
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 0 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3005 | unclear | Chiller CH-01
+Visit date: 2026-03-04
+Findings: Replaced contactor, chiller returned to service.
+Actions taken: Replaced contactor, chiller returned to service.
+Parts fitted: compressor contactor CC-3
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: Unclear due to conflicting duration information
+Caveat: The available information is inconsistent; a precise summary cannot be confirmed.
+
+FSR-3006 | unclear | Cooling tower CT-02
+Visit date: 2026-03-05
+Findings: Inspection only, no parts required this visit.
+Actions taken: Inspection only, no parts required this visit.
+Parts fitted: fan motor FM-14, drive belt DB-6
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 3 hours 30 minutes
+Caveat: The available information is inconsistent; a precise summary cannot be confirmed.
+
+FSR-3007 | incomplete | AHU-04
+Visit date: 2026-03-05
+Findings: Attended site.
+Actions taken: Attended site.
+Parts fitted: None recorded
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 0 hours 25 minutes
+Caveat: This report is incomplete and requires follow-up.
+
+FSR-3008 | incomplete | VAV-22
+Visit date: 2026-03-06
+Findings: Checked.
+Actions taken: Checked.
+Parts fitted: None recorded
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 0 hours 20 minutes
+Caveat: This report is incomplete and requires follow-up.
+
+FSR-3009 | complete | Boiler BLR-05
+Visit date: 2026-03-06
+Findings: Replaced PRV, pressure test passed at 3 bar.
+Actions taken: Replaced PRV, pressure test passed at 3 bar.
+Parts fitted: pressure relief valve PRV-2
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 3 hours 45 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3010 | complete | Chiller CH-07
+Visit date: 2026-03-09
+Findings: Replaced expansion valve, superheat set to 6K.
+Actions taken: Replaced expansion valve, superheat set to 6K.
+Parts fitted: expansion valve EV-11
+Outstanding or recommended: Follow-up required by 15/04/2026.
+Time on site: 3 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3011 | complete | Central plant - multiple
+Visit date: 2026-03-10
+Findings: Full plant inspection and multiple remedial actions across six assets.
+Actions taken: Full plant inspection and multiple remedial actions across six assets.
+Parts fitted: contactor CC-1, contactor CC-2, sensor TS-8, sensor TS-9, filter FD-30, gasket GK-4, relay RL-7
+Outstanding or recommended: CT-02: inspection only, fan bearings noted as noisy and logged for follow-up. Recommend follow-up on CT-02 fan bearings within 30 days and a review of the contactor replacement interval given two failures on the same batch.
+Time on site: 11 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3012 | complete | Pump P-12
+Visit date: 2026-03-11
+Findings: Replaced leaking mechanical seal, no further leak observed.
+Actions taken: Replaced leaking mechanical seal, no further leak observed.
+Parts fitted: mechanical seal MS-3
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 0 hours 45 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3013 | complete | AHU-09
+Visit date: 2026-03-11
+Findings: Replaced faulty DP switch, alarm cleared.
+Actions taken: Replaced faulty DP switch, alarm cleared.
+Parts fitted: differential pressure switch DPS-2
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 2 hours 15 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3014 | complete | Boiler BLR-08
+Visit date: 2026-03-12
+Findings: Replaced thermocouple, flame supervision restored.
+Actions taken: Replaced thermocouple, flame supervision restored.
+Parts fitted: thermocouple TC-5
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 3 hours 20 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3015 | complete | Chiller CH-03
+Visit date: 2026-03-12
+Findings: Cleaned condenser coils, approach temperature improved by 2K.
+Actions taken: Cleaned condenser coils, approach temperature improved by 2K.
+Parts fitted: None recorded
+Outstanding or recommended: Recommend quarterly coil cleaning at this site.
+Time on site: 2 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3016 | complete | Fan FCU-31
+Visit date: 2026-03-13
+Findings: Replaced run capacitor, fan operating normally.
+Actions taken: Replaced run capacitor, fan operating normally.
+Parts fitted: capacitor CAP-4
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 0 hours 45 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3017 | complete | Cooling tower CT-01
+Visit date: 2026-03-13
+Findings: Replaced fill pack and drift eliminator.
+Actions taken: Replaced fill pack and drift eliminator.
+Parts fitted: fill pack FP-2, drift eliminator DE-1
+Outstanding or recommended: Heavy scaling observed, water treatment regime should be reviewed.
+Time on site: 4.0 hours
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3018 | complete | AHU-15
+Visit date: 2026-03-16
+Findings: Recalibrated supply air temperature sensor.
+Actions taken: Recalibrated supply air temperature sensor.
+Parts fitted: None recorded
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 1 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3019 | complete | Boiler BLR-03
+Visit date: 2026-03-16
+Findings: Replaced gas valve, full combustion test carried out and passed.
+Actions taken: Replaced gas valve, full combustion test carried out and passed.
+Parts fitted: gas valve GV-2
+Outstanding or recommended: No outstanding work or recommendations recorded.
+Time on site: 3 hours 30 minutes
+Caveat: Some internal report details were withheld from this customer summary.
+
+FSR-3020 | complete | Pump P-03
+Visit date: 2026-03-17
+Findings: Tightened flange bolts, minor weep resolved.
+Actions taken: Tightened flange bolts, minor weep resolved.
+Parts fitted: None recorded
+Outstanding or recommended: Monitor at next visit.
+Time on site: 0 hours 45 minutes
+Caveat: Some internal report details were withheld from this customer summary.
