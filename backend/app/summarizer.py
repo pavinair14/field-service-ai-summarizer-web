@@ -5,6 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
+from .models import FieldServiceReport
 from .trusted_facts import TrustedFacts
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
@@ -157,26 +158,31 @@ def _parse_summary_json(content: str) -> dict:
 
 def summarize_with_llm(facts: TrustedFacts) -> CustomerSummary:
     """Request optional model wording and reject unavailable or malformed responses."""
-    base_url = os.getenv("PORT_URL")
-    api_key = os.getenv("PORT_API_KEY")
+
+    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("PORT_API_KEY")
 
     if not api_key:
-        raise RuntimeError("PORT_API_KEY not configured")
-    if not base_url:
-        raise RuntimeError("PORT_URL not configured")
+        raise RuntimeError("OpenAI API key not configured")
 
     try:
-        from portkey_ai import Portkey
+        from openai import OpenAI
     except ImportError as exc:
-        raise RuntimeError("The portkey-ai package is not installed") from exc
+        raise RuntimeError("The openai package is not installed") from exc
 
-    client = Portkey(base_url=base_url, api_key=api_key)
+    base_url = os.getenv("OPENAI_BASE_URL") or os.getenv("OPENAI_API_BASE")
+    timeout = float(os.getenv("OPENAI_TIMEOUT", "5.0"))
+    client_kwargs = {"api_key": api_key, "timeout": timeout}
+    if base_url:
+        client_kwargs["base_url"] = base_url
+
+    client = OpenAI(**client_kwargs)
 
     prompt = build_summary_prompt(facts)
+    model_name = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
     try:
         response = client.chat.completions.create(
-            model="@dsvertex/anthropic.claude-sonnet-4-5@20250929",
+            model=model_name,
             temperature=0,
             response_format={"type": "json_object"},
             messages=[
@@ -208,7 +214,7 @@ Return JSON with exactly these fields:
             max_tokens=512,
         )
     except Exception as exc:
-        raise RuntimeError("The LLM request failed") from exc
+        raise RuntimeError(f"The LLM request failed: {exc}") from exc
 
     try:
         content = _extract_response_content(response)
@@ -231,3 +237,51 @@ Return JSON with exactly these fields:
         return CustomerSummary.model_validate(data)
     except ValueError as exc:
         raise RuntimeError("The LLM returned an invalid summary structure") from exc
+
+
+def generate_customer_summary_result(report: FieldServiceReport) -> dict:
+    """Build one approved result while keeping model wording behind deterministic gates."""
+    from .analysis import analyze_report
+    from .output_validator import validate_customer_summary
+    from .safety import analyze_safety
+    from .trusted_facts import build_trusted_facts
+
+    analysis = analyze_report(report)
+    safety = analyze_safety(report)
+    facts = build_trusted_facts(report, analysis, safety)
+
+    try:
+        summary = summarize_with_llm(facts)
+    except Exception:
+        summary = build_deterministic_summary(facts)
+
+    output_validation = validate_customer_summary(summary)
+
+    if facts.parts_fitted:
+        model_parts_valid = all(
+            any(p.lower() in f.lower() or f.lower() in p.lower() for f in facts.parts_fitted)
+            for p in summary.parts_fitted
+        )
+    else:
+        model_parts_valid = len(summary.parts_fitted) == 0
+
+    model_evidence_is_valid = (
+        summary.asset == facts.asset
+        and summary.visit_date == facts.visit_date
+        and model_parts_valid
+    )
+
+    if not output_validation.safe_to_publish or not model_evidence_is_valid:
+        summary = build_deterministic_summary(facts)
+        output_validation = validate_customer_summary(summary)
+
+    if not output_validation.safe_to_publish:
+        summary = build_unsafe_publication_fallback()
+        status = "unsafe"
+    else:
+        status = facts.status
+
+    return {
+        "status": status,
+        "summary": summary.model_dump(),
+    }

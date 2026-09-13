@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 
 from .analysis import ReportAnalysis
 from .models import FieldServiceReport
-from .safety import SafetyAnalysis, extract_safe_recommendations
+from .safety import SafetyAnalysis, extract_safe_findings, extract_safe_recommendations
 
 
 class TrustedFacts(BaseModel):
@@ -48,13 +48,19 @@ def build_trusted_facts(
             time_on_site = f"{total_minutes // 60} hours {total_minutes % 60:02d} minutes"
 
     outstanding = extract_safe_recommendations(report.technician_notes)
+    findings_from_notes = extract_safe_findings(report.technician_notes)
 
+    # "Findings" (what was found) and "actions taken" (what was done) are distinct
+    # required sections. The resolution field describes the repair action; safe,
+    # non-recommendation observations from technician notes describe what was found.
+    # Fall back to the resolution when notes contain no safe observational content.
+    findings = findings_from_notes or report.resolution
 
     return TrustedFacts(
         report_id=report.report_id,
         asset=report.asset,
         visit_date=report.arrived_at.date().isoformat(),
-        findings=report.resolution,
+        findings=findings,
         actions_taken=report.resolution,
         parts_fitted=report.parts_used,
         outstanding_or_recommended=outstanding or "No outstanding work or recommendations recorded.",

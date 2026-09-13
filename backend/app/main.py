@@ -12,6 +12,7 @@ from .safety import analyze_safety
 from .summarizer import (
     build_deterministic_summary,
     build_unsafe_publication_fallback,
+    generate_customer_summary_result,
     summarize_with_llm,
 )
 from .trusted_facts import build_trusted_facts
@@ -43,36 +44,12 @@ class SummaryRequest(BaseModel):
 
 
 def _customer_result(report: FieldServiceReport) -> dict:
-    """Build one approved result while keeping model wording behind deterministic gates."""
-    analysis = analyze_report(report)
-    safety = analyze_safety(report)
-    facts = build_trusted_facts(report, analysis, safety)
+    """Build one approved result while keeping model wording behind deterministic gates.
 
-    try:
-        summary = summarize_with_llm(facts)
-    except RuntimeError:
-        summary = build_deterministic_summary(facts)
-
-    output_validation = validate_customer_summary(summary)
-    model_evidence_is_valid = (
-        summary.asset == facts.asset
-        and summary.visit_date == facts.visit_date
-        and all(part in facts.parts_fitted for part in summary.parts_fitted)
-    )
-    if not output_validation.safe_to_publish or not model_evidence_is_valid:
-        summary = build_deterministic_summary(facts)
-        output_validation = validate_customer_summary(summary)
-
-    if not output_validation.safe_to_publish:
-        summary = build_unsafe_publication_fallback()
-        status = "unsafe"
-    else:
-        status = facts.status
-
-    return {
-        "status": status,
-        "summary": summary.model_dump(),
-    }
+    Delegates to generate_customer_summary_result which runs validate_customer_summary
+    and checks safe_to_publish before returning the final summary.
+    """
+    return generate_customer_summary_result(report)
 
 
 @app.get("/health")

@@ -4,13 +4,9 @@ import argparse
 import json
 from pathlib import Path
 
-from app.analysis import analyze_report
 from app.models import FieldServiceReport, InvalidReport
-from app.output_validator import validate_customer_summary
 from app.report_loader import iter_report_records
-from app.safety import analyze_safety
-from app.summarizer import build_deterministic_summary, build_unsafe_publication_fallback
-from app.trusted_facts import build_trusted_facts
+from app.summarizer import generate_customer_summary_result
 
 
 def process_record(record: FieldServiceReport | InvalidReport, line_number: int) -> dict:
@@ -33,18 +29,13 @@ def process_record(record: FieldServiceReport | InvalidReport, line_number: int)
             },
         }
 
-    analysis = analyze_report(record)
-    safety = analyze_safety(record)
-    facts = build_trusted_facts(record, analysis, safety)
-    summary = build_deterministic_summary(facts)
-    if not validate_customer_summary(summary).safe_to_publish:
-        summary = build_unsafe_publication_fallback()
+    res = generate_customer_summary_result(record)
     return {
         "line_number": line_number,
         "report_id": record.report_id,
-        "status": facts.status,
-        "asset": facts.asset,
-        "summary": summary.model_dump(),
+        "status": res["status"],
+        "asset": res["summary"]["asset"],
+        "summary": res["summary"],
     }
 
 

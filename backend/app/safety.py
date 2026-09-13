@@ -80,24 +80,54 @@ def analyze_safety(report: FieldServiceReport) -> SafetyAnalysis:
     return SafetyAnalysis.from_report(report)
 
 
+RECOMMENDATION_WORDS = re.compile(
+    r"\b(?:recommend|recommended|should|follow[- ]?up|monitor|review|next visit|outstanding)\b",
+    re.IGNORECASE,
+)
+
+INSTRUCTION_WORDS = re.compile(
+    r"\b(?:ignore|publish|suppress|omit|summary tool|previous instructions|instruction)\b",
+    re.IGNORECASE,
+)
+
+
+def _split_sentences(notes: str) -> list[str]:
+    """Split free-text notes into sentence-level candidates for category-based selection."""
+    return [
+        sentence.strip()
+        for sentence in re.split(r"(?<=[.!?])\s+", notes.strip())
+        if sentence.strip()
+    ]
+
+
+def _is_safe_sentence(sentence: str) -> bool:
+    """Reject sentences with embedded instructions or personal/physical-security content."""
+    if INSTRUCTION_WORDS.search(sentence):
+        return False
+    if SafetyAnalysis.contains_personal_data(sentence) or SafetyAnalysis.detect_physical_security_information(sentence):
+        return False
+    return True
+
+
 def extract_safe_recommendations(notes: str) -> str:
     """Keep recommendation-bearing sentences while excluding untrusted details."""
-    candidates = re.split(r"(?<=[.!?])\s+", notes.strip())
-    selected: list[str] = []
-    recommendation_words = re.compile(
-        r"\b(?:recommend|recommended|should|follow[- ]?up|monitor|review|next visit|outstanding)\b",
-        re.IGNORECASE,
-    )
-    instruction_words = re.compile(
-        r"\b(?:ignore|publish|suppress|omit|summary tool|previous instructions)\b",
-        re.IGNORECASE,
-    )
-    for sentence in candidates:
-        if not sentence or not recommendation_words.search(sentence):
-            continue
-        if instruction_words.search(sentence):
-            continue
-        if SafetyAnalysis.contains_personal_data(sentence) or SafetyAnalysis.detect_physical_security_information(sentence):
-            continue
-        selected.append(sentence.strip())
+    selected = [
+        sentence
+        for sentence in _split_sentences(notes)
+        if RECOMMENDATION_WORDS.search(sentence) and _is_safe_sentence(sentence)
+    ]
+    return " ".join(selected)
+
+
+def extract_safe_findings(notes: str) -> str:
+    """Keep observation/diagnostic sentences describing what was found during the visit.
+
+    Recommendation-bearing sentences are excluded here so they are only published once,
+    under outstanding/recommended work, rather than duplicated into findings.
+    """
+    selected = [
+        sentence
+        for sentence in _split_sentences(notes)
+        if not RECOMMENDATION_WORDS.search(sentence) and _is_safe_sentence(sentence)
+    ]
     return " ".join(selected)
